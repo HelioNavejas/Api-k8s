@@ -1,0 +1,35 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-heladov2
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: helados
+  template:
+    metadata:
+      labels:
+        app: helados
+    spec:
+      containers:
+      - name: api-helado
+        image: helionavejas/helado:heladoapi
+        ports:
+        - containerPort: 5000
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: api-helado-servicev2
+spec:
+  selector:
+    app: helados
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5000
+  type: NodePort
